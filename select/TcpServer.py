@@ -1,7 +1,7 @@
 import socket
 import select
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(('', 8881))
+sock.bind(('', 10000))
 sock.listen(5)
 
 # lists of sockets to watch for input and output events
@@ -34,7 +34,9 @@ try:
                     # a disconnect, give a message and clean up
                     print "disconnected from", adrs[x]
                     del adrs[x]
-                    try: ous.remove(x)
+                    try:
+                        ins.remove(x)
+                        ous.remove(x)
                     except ValueError: pass
                     x.close(  )
         for x in o:

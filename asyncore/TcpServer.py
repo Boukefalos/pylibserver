@@ -20,5 +20,5 @@ class SecondaryServerSocket(asyncore.dispatcher_with_send):
     def handle_close(self):
         print "Disconnected from", self.getpeername(  )
 
-MainServerSocket(8881)
+MainServerSocket(10000)
 asyncore.loop(  )
