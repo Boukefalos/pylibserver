@@ -17,11 +17,11 @@ class TestTcpCommunication(unittest.TestCase):
 
     def test_tcp_communication(self):
         for i in range(1, 50):
-            self.server.send('server #%d' % i)
+            self.server.write('server #%d' % i)
             time.sleep(1)
 
         for i in range(1, 50):
-            self.client.send('client #%d' % i)
+            self.client.write('client #%d' % i)
             time.sleep(1)
 
 if __name__ == '__main__':
