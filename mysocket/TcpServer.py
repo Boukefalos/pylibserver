@@ -16,16 +16,19 @@ class TcpServer(asyncore.dispatcher):
         print 'Connected from', address
         self.clients.append(TcpServerClient(self, mysocket, self.bufferSize))
 
-    def start(self):
+    def start(self, thread=True):
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.bind(self.address)
         self.listen(5)
-        self.thread = threading.Thread(target=asyncore.loop, kwargs = {'timeout': 0.5})
-        self.thread.start()
+        if thread:
+            self.thread = threading.Thread(target=asyncore.loop, kwargs = {'timeout': 1})
+            self.thread.start()
 
     def stop(self):
         self.close()
-        self.thread.join()
+        if self.thread:
+            self.thread.join()
+
 
     def write(self, message):
         for client in self.clients:

@@ -28,15 +28,17 @@ class TcpClient(asyncore.dispatcher):
             self.send(data)
         self.queue = []
 
-    def start(self):
+    def start(self, thread=True):
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connect(self.address)
-        self.thread = threading.Thread(target=asyncore.loop, kwargs = {'timeout': 1})
-        self.thread.start()
+        if thread:
+            self.thread = threading.Thread(target=asyncore.loop, kwargs = {'timeout': 1})
+            self.thread.start()
 
     def stop(self):
         self.close()
-        self.thread.join()
+        if self.thread:
+            self.thread.join()
 
     def write(self, data):
         self.queue.append(data)
